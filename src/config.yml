@@ -1,0 +1,44 @@
+# The plugin only applies for one world - so the world name goes here
+worldName: world
+# Min chance a wildfire will occur
+wildfireChance: 1
+# What the min chance is out of. If min chance of 1 and max chance of 5 would be 20%
+wildfireChanceMax: 5
+# How long in ticks there is a chance of a wildfire (12000 ticks is half a MC day)
+wildfireTickTime: 12000
+# Message displayed to players who login during an acid rain storm
+acidRainCurrent: '&2&lAn acid rain storm is currently going on!'
+# acidRainDesintegrate time in ticks
+acidRainDesintegrateTicks: 20
+# Message displayed to players when acid rain has started
+acidRainStart: '&2&lAn acid rain storm has started!'
+# Message displayed to players when acid rain has stopped
+acidRainStop: '&2&lThe acid rain storm has stopped.'
+# Message displayed when lightning storm starts
+lightningStormStart: '&7&lA lightning storm has started!'
+# Message displayed when lightning storm stops
+lightningStormStop: '&7&lThe lightning storm has stopped.'
+# Min chance a lightning storm will occur
+lightningStormChance: 1
+# What the min chance is out of. Min chance of 1 and max chance of 5 would be 20%
+lightningStormChanceMax: 5
+# How frequently in ticks a chance of a lightning storm is calculated (12000 ticks is half a MC day)
+lightningStormTickTime: 18000
+# How long the lightning storm lasts in ticks 1200 is 1 minute
+lightningStormDuration: 1200
+# The URL of the acid rain resource pack
+texturePack: https://dl.dropboxusercontent.com/u/97875111/acidRain.zip
+# Min chance a meteor will fall
+meteorChance: 1
+# What the min chance is out of. Min chance of 1 and max chance of 5 would be 20%
+meteorChanceMax: 5
+# How long in ticks a chance of a lightning storm is calculated (12000 ticks is half a MC day)
+meteorTickTime: 12000
+# Message displayed when a meteor is about to hit a player
+meteorMessage: '&4&lA [SIZE] meteor will impact near you at [COORDS] in two minutes.'
+# Explosive power of a small meteor
+smallMeteor: 3
+# Explosive power of a medium meteor
+mediumMeteor: 4
+# Explosive power of a large meteor
+largeMeteor: 6

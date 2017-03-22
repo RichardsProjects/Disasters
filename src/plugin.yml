@@ -1,0 +1,26 @@
+name: Disasters
+main: net.richardsprojects.disasters.Disasters
+version: 1.0.0
+
+permissions:
+  disasters.wildfire.start:
+    description: Allows an admin to start a wildfire
+    default: op
+  disasters.lightningstorm.start:
+    description: Allows an admin to start a wildfire
+    default: op
+  disasters.meteor.start:
+    description: Allows an admin to summon a meteor
+    default: op
+    
+commands:
+  wildfire:
+    description: Starts a wildfire disaster.
+    usage: /<command>
+  lightningstorm:
+    description: Starts a Lightning Storm.
+    usage: /<command>
+  meteor:
+    description: Summons a metor for a random player;
+    usage: /<command>
+        
