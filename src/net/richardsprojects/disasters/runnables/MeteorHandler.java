@@ -1,5 +1,6 @@
 package net.richardsprojects.disasters.runnables;
 
+import net.richardsprojects.disasters.Config;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Arrow;
@@ -22,11 +23,11 @@ public class MeteorHandler extends BukkitRunnable {
 	}
 
 	public void run() {
-		if(plugin.getServer().getWorld(Disasters.worldName) != null) {
-			final World w = plugin.getServer().getWorld(Disasters.worldName);
+		if(plugin.getServer().getWorld(Config.worldName) != null) {
+			final World w = plugin.getServer().getWorld(Config.worldName);
 			if(w.getPlayers().size() > 0) {
-				int randomNumber = Utils.randInt(1, Disasters.meteorChanceMax);
-				if(randomNumber <= Disasters.meteorChance || !random) {
+				int randomNumber = Utils.randInt(1, Config.meteorChanceMax);
+				if(randomNumber <= Config.meteorChance || !random) {
 					//Generate a random player					
 					int playerNumber = Utils.randInt(0, w.getPlayers().size() - 1);
 					final Player p = w.getPlayers().get(playerNumber);
@@ -41,7 +42,7 @@ public class MeteorHandler extends BukkitRunnable {
 					final Location twoblocks = new Location(w, locX, 254, locZ);
 					
 					//Warn them of impending meteor
-					String msg = Disasters.meteorMessage;
+					String msg = Config.meteorMessage;
 					msg = msg.replace("[SIZE]", Utils.meteorSize(meteorSize));
 					msg = msg.replace("[COORDS]", "X: " + locX + ", Z: " + locZ);
 					p.sendMessage(Utils.colorCodes(msg));
@@ -51,7 +52,7 @@ public class MeteorHandler extends BukkitRunnable {
 						public void run() {							
 							LargeFireball fb = (LargeFireball) w.spawn(twoblocks, LargeFireball.class);
 							Arrow e = (Arrow) w.spawn(yawLoc, Arrow.class);
-							e.setCustomName(Utils.meteorNameSize(meteorSize));
+							e.setCustomName(Utils.meteorSize(meteorSize));
 							int angleX = Utils.randInt(0, 360);
 							int angleY = Utils.randInt(0, 360);
 							int angleZ = Utils.randInt(0, 360);

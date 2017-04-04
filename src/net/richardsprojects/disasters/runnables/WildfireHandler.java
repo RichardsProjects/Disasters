@@ -1,6 +1,7 @@
 package net.richardsprojects.disasters.runnables;
 
 import net.md_5.bungee.api.ChatColor;
+import net.richardsprojects.disasters.Config;
 import net.richardsprojects.disasters.Disasters;
 import net.richardsprojects.disasters.Utils;
 
@@ -23,15 +24,15 @@ public class WildfireHandler extends BukkitRunnable {
 	}
 	
 	public void run() {
-		World world = plugin.getServer().getWorld(Disasters.worldName);
+		World world = plugin.getServer().getWorld(Config.worldName);
 		if(world != null) { 
 			if(world.getPlayers().size() > 0) {
-				//Calculate chance
-				int randomNumber = Utils.randInt(1, Disasters.wildfireChanceMax);
-				if(randomNumber <= Disasters.wildfireChance || !random) {
+				// calculate chance
+				int randomNumber = Utils.randInt(1, Config.wildfireChanceMax);
+				if(randomNumber <= Config.wildfireChance || !random) {
 					int playerNumber = Utils.randInt(0, world.getPlayers().size() - 1);
 					final Player player = world.getPlayers().get(playerNumber);
-					//Generate the wildfire
+					// generate the wildfire
 					int tries = 0;
 					Location location = player.getLocation();
 					while(tries < 100) {
@@ -44,7 +45,7 @@ public class WildfireHandler extends BukkitRunnable {
 							block = new Location(player.getWorld(), xCoord, yCoord, zCoord).getBlock();
 						}
 						if(Utils.isFlammable(block.getType())) {
-							//Task must be run on main thread because it makes changes to blocks
+							// task must be run on main thread because it makes changes to blocks
 							new StartWildfire(block, player).runTask(plugin);
 							break;
 						} else {

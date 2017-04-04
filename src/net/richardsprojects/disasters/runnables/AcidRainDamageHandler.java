@@ -1,5 +1,6 @@
 package net.richardsprojects.disasters.runnables;
 
+import net.richardsprojects.disasters.Config;
 import net.richardsprojects.disasters.Disasters;
 
 import org.bukkit.Location;
@@ -19,9 +20,9 @@ public class AcidRainDamageHandler extends BukkitRunnable {
 	}
 	
 	public void run() {
-		if(plugin.getServer().getWorld(Disasters.worldName) != null) {
+		if(plugin.getServer().getWorld(Config.worldName) != null) {
 			if(Disasters.currentlyRaining) {
-				World world = plugin.getServer().getWorld(Disasters.worldName);
+				World world = plugin.getServer().getWorld(Config.worldName);
 				for(Player player : world.getPlayers()) {
 					//Check that they are not in a desert biome
 					if(player.getLocation().getBlock().getBiome() != Biome.DESERT 

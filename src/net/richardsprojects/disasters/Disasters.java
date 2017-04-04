@@ -1,12 +1,10 @@
 package net.richardsprojects.disasters;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import net.md_5.bungee.api.ChatColor;
@@ -32,56 +30,30 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.org.mozilla.javascript.ast.Block;
 
 public class Disasters extends JavaPlugin {
 
-	private FileConfiguration config;
 	private FileConfiguration acidRain = new YamlConfiguration();
 	private FileConfiguration lightningRod = new YamlConfiguration();
 	private FileConfiguration lightning = new YamlConfiguration();
-	private File dataFolder;
-	public static String worldName = "world";
-	
-	public static int wildfireChance = 1;
-	public static int wildfireChanceMax = 5;
-	private static int wildfireTickTime = 12000;
-	
-	public static boolean currentlyRaining = false;
-	public static String acidRainCurrent = "&2&lAn acid rain storm is currently going on!";
-	public static String acidRainStart = "&2&lAn acid rain storm has started!";
-	public static String acidRainStop = "&2&lThe acid rain storm has stopped.";
-	public static String texturePack = "https://dl.dropboxusercontent.com/u/97875111/acidRain.zip";
-	public static int acidRainDesintegrateTicks = 20;
-	
-	public static String lightningStormStart = "&7&lA lightning storm has started!";
-	public static String lightningStormStop = "&7&lThe lightning storm has stopped.";
-	public static int lightningStormChance = 1;
-	public static int lightningStormChanceMax = 5;
-	private static int lightningStormTickTime = 12000;
-	public static int lightningStormDuration = 1200;
-	
-	public static int meteorChance = 1;
-	public static int meteorChanceMax = 5;
-	private static int meteorTickTime = 12000;
-	public static String meteorMessage = "&4&lA [SIZE] meteor is falling near you."; 
-	public static int smallMeteor = 2;
-	public static int mediumMeteor = 4;
-	public static int largeMeteor = 6;
-	
-	public static ArrayList<BlockReplaceData> disintegrationData = new ArrayList<>();
-	public static ArrayList<BlockReplaceData> lightningData = new ArrayList<>();
-	public static ArrayList<Location> lightningRodList = new ArrayList<>();
-	
-	public static Logger log;
 	private PluginManager pm;
-	
+
+	public static boolean currentlyRaining = false;
 	public static boolean lightningStormInProgress = false;
 
+	public static HashMap<BlockData, BlockData> disintegrationData = new HashMap<>();
+	public static HashMap<BlockData, BlockData> lightningData = new HashMap<>();
+	public static CopyOnWriteArrayList<Location> lightningRodList = new CopyOnWriteArrayList<>();
+	public static Disasters instance;
+	public static Logger log;
+
+	public File dataFolder;
 
 	@Override
 	public void onEnable() {
-		//Basic Setup
-		log = Logger.getLogger("Minecraft");
+		instance = this;
+		log = this.getLogger();
 		pm = getServer().getPluginManager();
 		
 		dataFolder = getDataFolder();
@@ -89,101 +61,52 @@ public class Disasters extends JavaPlugin {
 			dataFolder.mkdirs();
 		}
 		
-		loadConfig();
+		Config.loadConfig();
 		loadAcidRainData();
 		loadLightningRods();
 		loadLightningData();
-		
-		
-		
+
 		// start handlers
-		new WildfireHandler(this, true).runTaskTimerAsynchronously(this, wildfireTickTime,
-				wildfireTickTime);
-		new LightningStormStarter(this, true).runTaskTimerAsynchronously(this,
-				lightningStormTickTime, lightningStormTickTime);
-		new MeteorHandler(this, true).runTaskTimerAsynchronously(this, meteorTickTime,
-				meteorTickTime);
+		if (Config.wildfiresEnabled) {
+			new WildfireHandler(this, true).runTaskTimerAsynchronously(this, Config.wildfireTickTime,
+					Config.wildfireTickTime);
+		}
+		if (Config.lightningstormsEnabled) {
+			new LightningStormStarter(this, true).runTaskTimerAsynchronously(this,
+					Config.lightningStormTickTime, Config.lightningStormTickTime);
+		}
+		if (Config.meteorsEnabled) {
+			new MeteorHandler(this, true).runTaskTimerAsynchronously(this, Config.meteorTickTime,
+					Config.meteorTickTime);
+		}
 		
-		//Register Commands
+		// register commands
 		getCommand("wildfire").setExecutor(new WildfireCommand(this));
 		getCommand("lightningstorm").setExecutor(new LightningStormCommand(this));
 		getCommand("meteor").setExecutor(new MeteorCommand(this));
 		
-		//Setup Events
+		// setup events
 		pm.registerEvents(new WeatherEvents(this), this);
 		pm.registerEvents(new SPEvent(this), this);
 		pm.registerEvents(new PlayerJoinEvent(), this);
 		pm.registerEvents(new ImpactEvent(this), this);
 		
 		// check if it is raining in the world and start the acid rain handlers if so.
-		if(getServer().getWorld(worldName) != null) {
-			World w = getServer().getWorld(worldName);
-			if(w.hasStorm()) {
+		if(getServer().getWorld(Config.worldName) != null) {
+			World w = getServer().getWorld(Config.worldName);
+			if(w.hasStorm() && Config.acidRainEnabled) {
 				new AcidRainDamageHandler(this).runTaskTimerAsynchronously(this, 0, 40);
 				new AcidRainDisintegrationHandler(this).runTaskTimerAsynchronously(this,
-						Disasters.acidRainDesintegrateTicks, Disasters.acidRainDesintegrateTicks);
+						Config.acidRainDesintegrateTicks, Config.acidRainDesintegrateTicks);
 				currentlyRaining = true;
 			}
 			for(Player p : w.getPlayers()) {
-				p.setResourcePack(Disasters.texturePack);
+				p.setResourcePack(Config.texturePack);
 			}
 		}
 	}
 	
-	public void loadConfig() {
-		this.reloadConfig();
-		
-		File file = new File(getDataFolder() + File.separator + "config.yml");
-		if(!file.exists()) {
-			try {
-				PrintWriter out = new PrintWriter(new File(dataFolder + File.separator + "config.yml"));
-				BufferedReader reader = new BufferedReader(new InputStreamReader(
-				Disasters.class.getResourceAsStream("/config.yml")));
-
-				String currentLine;
-				while ((currentLine = reader.readLine()) != null) {
-					out.append(currentLine + "\n");
-				}
-				out.close();
-				reader.close();
-				
-				config = new YamlConfiguration();
-				config.load(new File(dataFolder + File.separator + "config.yml"));
-			} catch (Exception e) {
-				log.info("[Disasters] There was an error setting up the config file...");
-				e.printStackTrace();
-			}
-			
-			log.info("[Disasters] Generated config.yml");
-		} else {
-			config = this.getConfig();
-			
-			worldName = config.getString("worldName");
-			wildfireChance = config.getInt("wildfireChance");
-			wildfireChanceMax = config.getInt("wildfireChanceMax");
-			wildfireTickTime = config.getInt("wildfireTickTime");
-			acidRainStart = config.getString("acidRainStart");
-			acidRainStop = config.getString("acidRainStop");
-			acidRainDesintegrateTicks = config.getInt("acidRainDesintegrateTicks");
-			lightningStormStart = config.getString("lightningStormStart");
-			lightningStormStop = config.getString("lightningStormStop");
-			lightningStormChance = config.getInt("lightningStormChance");
-			lightningStormChanceMax = config.getInt("lightningStormChanceMax");
-			lightningStormTickTime = config.getInt("lightningStormTickTime");
-			lightningStormDuration = config.getInt("lightningStormDuration");
-			texturePack = config.getString("texturePack");
-			meteorMessage = config.getString("meteorMessage");
-			meteorTickTime = config.getInt("meteorTickTime");
-			meteorChance = config.getInt("meteorChance");
-			meteorChanceMax = config.getInt("meteorChanceMax");
-			smallMeteor = config.getInt("smallMeteor");
-			mediumMeteor = config.getInt("mediumMeteor");
-			largeMeteor = config.getInt("largeMeteor");
-			acidRainCurrent = config.getString("acidRainCurrent");
-		}
-	}
-	
-	public void loadAcidRainData() {
+	private void loadAcidRainData() {
 		this.reloadConfig();
 		
 		File file = new File(getDataFolder() + File.separator + "acidRain.yml");
@@ -209,8 +132,9 @@ public class Disasters extends JavaPlugin {
 			acidRain.addDefault("4", "0");
 			acidRain.options().copyDefaults(true);
 			
-			BlockReplaceData data = new BlockReplaceData(Material.getMaterial(4), 0, Material.getMaterial(0), 0);
-			Disasters.disintegrationData.add(data);
+			BlockData source = new BlockData(Material.getMaterial(4), 0);
+			BlockData replace = new BlockData(Material.getMaterial(0), 0);
+			Disasters.disintegrationData.put(source, replace);
 			
 			try {
 				acidRain.save(getDataFolder() + File.separator + "acidRain.yml");
@@ -239,78 +163,21 @@ public class Disasters extends JavaPlugin {
 			}
 			
 			for(String key : acidRain.getKeys(true)) {
-				//Parse Materials
-				Material type = null;
-				Material replace = null;
-				int typeData = 0;
-				int replaceData = 0;
-				int intType = 0;
-				int returnType = 0;
-				String str = acidRain.getString(key);
-				if(key.contains(":")) {
-					String[] values = key.split(":");
-					if(values.length == 2) {
-						String firstPart = values[0];
-						String secondPart = values[1];
-						//Calculate Material
-						try {
-							intType = Integer.parseInt(firstPart);
-							type = Material.getMaterial(intType);
-						} catch(NumberFormatException e) {
-							type = Material.matchMaterial(firstPart);
-						}
-						//Calculate Data
-						try {
-							typeData = Integer.parseInt(secondPart);
-						} catch(NumberFormatException e) {}
-					}					
-				} else {
-					try {
-						intType = Integer.parseInt(key);
-						type = Material.getMaterial(intType);
-					} catch(NumberFormatException e) {
-						type = Material.matchMaterial(key);
-					}
-				}
-				
-				if(str.contains(":")) {
-					String[] values = str.split(":");
-					if(values.length == 2) {
-						String firstPart = values[0];
-						String secondPart = values[1];
-						//Calculate Material
-						try {
-							returnType = Integer.parseInt(firstPart);
-							replace = Material.getMaterial(returnType);
-						} catch(NumberFormatException e) {
-							replace = Material.matchMaterial(str);
-						}
-						//Calculate Data
-						try {
-							replaceData = Integer.parseInt(secondPart);
-						} catch(NumberFormatException e) {}
-					}
-				} else {
-					try {
-						returnType = Integer.parseInt(str);
-						replace = Material.getMaterial(returnType);
-					} catch(NumberFormatException e) {
-						replace = Material.matchMaterial(str);
-					}
-				}
-				
-				if(type == null || replace == null) {
+				BlockData source = Utils.getBlockData(key);
+				String value = acidRain.getString(key);
+				BlockData replace = Utils.getBlockData(value);
+
+				if(source == null || replace == null) {
 					log.info("[Disasters] There was a problem parsing a section of the acidRain.yml file");
-					log.info("[Disasters] Either '" + key + "' or '" + str + "' is not valid");
+					log.info("[Disasters] Either '" + key + "' or '" + value + "' is not valid");
 				} else {
-					BlockReplaceData data = new BlockReplaceData(type, typeData, replace, replaceData);
-					Disasters.disintegrationData.add(data);
+					Disasters.disintegrationData.put(source, replace);
 				}
 			}
 		}
 	}
 	
-	public void loadLightningRods() {
+	private void loadLightningRods() {
 		File file = new File(getDataFolder() + File.separator + "lightningRods.yml");
 		if(!file.exists()) {
 			try {
@@ -346,7 +213,7 @@ public class Disasters extends JavaPlugin {
 					String[] locationData = key.split("\\|");
 					int x = Integer.parseInt(locationData[0]);
 					int z = Integer.parseInt(locationData[1]);
-					Location loc = new Location(getServer().getWorld(worldName), x, 0, z);
+					Location loc = new Location(getServer().getWorld(Config.worldName), x, 0, z);
 					lightningRodList.add(loc);
 				} catch(NumberFormatException e) {
 					log.info("[Disasters] There was a problem parsing a section of the lightningRods.yml file");
@@ -373,7 +240,7 @@ public class Disasters extends JavaPlugin {
 			if(!rodAlreadyExists) {
 				lightningRod.set(key, value);
 				lightningRod.save(getDataFolder() + File.separator + "lightningRods.yml");
-				Location loc2 = new Location(getServer().getWorld(worldName), loc.getBlockX(), 0, loc.getBlockZ());
+				Location loc2 = new Location(getServer().getWorld(Config.worldName), loc.getBlockX(), 0, loc.getBlockZ());
 				lightningRodList.add(loc2);
 				p.sendMessage(ChatColor.GREEN + "Lightning rod created successfully!");
 			} else {
@@ -401,8 +268,12 @@ public class Disasters extends JavaPlugin {
 			log.info("[Disasters] An error occured while attempting to remove a lighting rod.");
 		}
 	}
-	
-	public void loadLightningData() {
+
+	/**
+	 * A helper method that loads lightning rod data from the lightning.yml
+	 * file on disk.
+	 */
+	private void loadLightningData() {
 		this.reloadConfig();
 		
 		File file = new File(getDataFolder() + File.separator + "lightning.yml");
@@ -428,8 +299,9 @@ public class Disasters extends JavaPlugin {
 			lightning.addDefault("12", 20);
 			lightning.options().copyDefaults(true);
 			
-			BlockReplaceData data = new BlockReplaceData(Material.getMaterial(4), 0, Material.getMaterial(0), 0);
-			Disasters.lightningData.add(data);
+			BlockData source = new BlockData(Material.getMaterial(4), 0);
+			BlockData replace = new BlockData(Material.getMaterial(0), 0);
+			Disasters.lightningData.put(source, replace);
 			
 			try {
 				lightning.save(getDataFolder() + File.separator + "lightning.yml");
@@ -458,73 +330,15 @@ public class Disasters extends JavaPlugin {
 			}
 			
 			for(String key : lightning.getKeys(true)) {
-				//Parse Materials
-				Material type = null;
-				Material replace = null;
-				int typeData = 0;
-				int replaceData = 0;
-				int intType = 0;
-				int returnType = 0;
-				String str = lightning.getString(key);
+				BlockData source = Utils.getBlockData(key);
+				String value = lightning.getString(key);
+				BlockData replace = Utils.getBlockData(value);
 				
-				if(key.contains(":")) {
-					String[] values = key.split(":");
-					if(values.length == 2) {
-						String firstPart = values[0];
-						String secondPart = values[1];
-						//Calculate Material
-						try {
-							intType = Integer.parseInt(firstPart);
-							type = Material.getMaterial(intType);
-						} catch(NumberFormatException e) {
-							type = Material.matchMaterial(firstPart);
-						}
-						//Calculate Data
-						try {
-							typeData = Integer.parseInt(secondPart);
-						} catch(NumberFormatException e) {}
-					}					
-				} else {
-					try {
-						intType = Integer.parseInt(key);
-						type = Material.getMaterial(intType);
-					} catch(NumberFormatException e) {
-						type = Material.matchMaterial(key);
-					}
-				}
-				
-				if(str.contains(":")) {
-					String[] values = str.split(":");
-					if(values.length == 2) {
-						String firstPart = values[0];
-						String secondPart = values[1];
-						//Calculate Material
-						try {
-							returnType = Integer.parseInt(firstPart);
-							replace = Material.getMaterial(returnType);
-						} catch(NumberFormatException e) {
-							replace = Material.matchMaterial(str);
-						}
-						//Calculate Data
-						try {
-							replaceData = Integer.parseInt(secondPart);
-						} catch(NumberFormatException e) {}
-					}
-				} else {
-					try {
-						returnType = Integer.parseInt(str);
-						replace = Material.getMaterial(returnType);
-					} catch(NumberFormatException e) {
-						replace = Material.matchMaterial(str);
-					}
-				}
-				
-				if(type == null || replace == null) {
+				if(source == null || replace == null) {
 					log.info("[Disasters] There was a problem parsing a section of the lightning.yml file");
-					log.info("[Disasters] Either '" + key + "' or '" + str + "' is not valid");
+					log.info("[Disasters] Either '" + key + "' or '" + value + "' is not valid");
 				} else {
-					BlockReplaceData data = new BlockReplaceData(type, typeData, replace, replaceData);
-					Disasters.lightningData.add(data);
+					Disasters.lightningData.put(source, replace);
 				}
 			}
 		}

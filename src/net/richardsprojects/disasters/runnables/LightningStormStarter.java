@@ -1,5 +1,6 @@
 package net.richardsprojects.disasters.runnables;
 
+import net.richardsprojects.disasters.Config;
 import net.richardsprojects.disasters.Disasters;
 import net.richardsprojects.disasters.Utils;
 
@@ -18,21 +19,22 @@ public class LightningStormStarter extends BukkitRunnable {
 	}
 	
 	public void run() {
-		World world = plugin.getServer().getWorld(Disasters.worldName);
+		World world = plugin.getServer().getWorld(Config.worldName);
 		if(world != null) {
 			if(!Disasters.lightningStormInProgress) {
 				if(world.getPlayers().size() > 0) {
 					//Calculate chance
-					int randomNumber = Utils.randInt(1, Disasters.lightningStormChanceMax);
-					if(randomNumber <= Disasters.lightningStormChance || !startRandomly) {
+					int randomNumber = Utils.randInt(1, Config.lightningStormChanceMax);
+					if(randomNumber <= Config.lightningStormChance || !startRandomly) {
 						//Notify all players
 						for(Player p : world.getPlayers()) {
-							p.sendMessage(Utils.colorCodes(Disasters.lightningStormStart));
+							p.sendMessage(Utils.colorCodes(Config.lightningStormStart));
 						}
 						
 						//Run Lightning storm stop task after configurable delay
-						new LightningStormStop(plugin).runTaskLaterAsynchronously(plugin, Disasters.lightningStormDuration);
-						
+						new LightningStormStop(plugin).runTaskLaterAsynchronously(plugin, Config.lightningStormDuration);
+						new LightningStormStop(plugin).runTaskLaterAsynchronously(plugin, Config.lightningStormDuration);
+
 						//Reset and start strike method
 						new BukkitRunnable() {
 							public void run() {

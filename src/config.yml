@@ -1,44 +1,34 @@
-# The plugin only applies for one world - so the world name goes here
-worldName: world
-# Min chance a wildfire will occur
-wildfireChance: 1
-# What the min chance is out of. If min chance of 1 and max chance of 5 would be 20%
-wildfireChanceMax: 5
-# How long in ticks there is a chance of a wildfire (12000 ticks is half a MC day)
-wildfireTickTime: 12000
-# Message displayed to players who login during an acid rain storm
-acidRainCurrent: '&2&lAn acid rain storm is currently going on!'
-# acidRainDesintegrate time in ticks
-acidRainDesintegrateTicks: 20
-# Message displayed to players when acid rain has started
+# --------
+# Options
+# --------
+worldName: world # the plugin only applies for one world - so the world name goes here
+wildfireChance: 1 # min chance a wildfire will occur
+wildfireChanceMax: 5 # What the min chance is out of. If min chance of 1 and max chance of 5 would be 20%
+wildfireTickTime: 12000 # Frequency at which a chance of a wildfire is calculated (12000 ticks is half a MC day)
+acidRainDesintegrateTicks: 20 # acidRainDesintegrate time in ticks
+lightningStormChance: 1 # Min chance a lightning storm will occur
+lightningStormChanceMax: 5 # What the min chance is out of. Min chance of 1 and max chance of 5 would be 20%
+lightningStormTickTime: 18000 # How frequently a chance of a lightning storm is calculated (12000 ticks is half a MC day)
+lightningStormDuration: 1200 # How long the lightning storm lasts in ticks 1200 is 1 minute
+texturePack: 'https://dl.dropboxusercontent.com/s/boafxuxo7zcwrq3/acidRain.zip?dl=0' # The URL of acid rain pack
+meteorChance: 1 # Min chance a meteor will fall
+meteorChanceMax: 5 # What the min chance is out of. Min chance of 1 and max chance of 5 would be 20%
+meteorTickTime: 12000 # Frequency that a chance of a meteor is calculated (12000 ticks is half a MC day)
+smallMeteor: 3 # Explosive power of a small meteor
+mediumMeteor: 4 # Explosive power of a medium meteor
+largeMeteor: 6 # Explosive power of a large meteor
+meteorsDamageTerrain: false # Whether meteor explosions damage terrain or not
+meteorsEnabled: true # whether meteor showers occur
+lightningstormsEnabled: true # whether lightning storms occur
+acidRainEnabled: true # whether acid rain storms occur
+wildfiresEnabled: true # whether wildfires are enabled
+
+# -----------
+# Messages
+# -----------
+acidRainCurrent: '&2&lAn acid rain storm is currently going on!' # displayed to players who login during an acid rain storm
 acidRainStart: '&2&lAn acid rain storm has started!'
-# Message displayed to players when acid rain has stopped
 acidRainStop: '&2&lThe acid rain storm has stopped.'
-# Message displayed when lightning storm starts
 lightningStormStart: '&7&lA lightning storm has started!'
-# Message displayed when lightning storm stops
 lightningStormStop: '&7&lThe lightning storm has stopped.'
-# Min chance a lightning storm will occur
-lightningStormChance: 1
-# What the min chance is out of. Min chance of 1 and max chance of 5 would be 20%
-lightningStormChanceMax: 5
-# How frequently in ticks a chance of a lightning storm is calculated (12000 ticks is half a MC day)
-lightningStormTickTime: 18000
-# How long the lightning storm lasts in ticks 1200 is 1 minute
-lightningStormDuration: 1200
-# The URL of the acid rain resource pack
-texturePack: https://dl.dropboxusercontent.com/u/97875111/acidRain.zip
-# Min chance a meteor will fall
-meteorChance: 1
-# What the min chance is out of. Min chance of 1 and max chance of 5 would be 20%
-meteorChanceMax: 5
-# How long in ticks a chance of a lightning storm is calculated (12000 ticks is half a MC day)
-meteorTickTime: 12000
-# Message displayed when a meteor is about to hit a player
-meteorMessage: '&4&lA [SIZE] meteor will impact near you at [COORDS] in two minutes.'
-# Explosive power of a small meteor
-smallMeteor: 3
-# Explosive power of a medium meteor
-mediumMeteor: 4
-# Explosive power of a large meteor
-largeMeteor: 6
+meteorMessage: '&4&lA [SIZE] meteor will impact near you at [COORDS] in two minutes.' # Message displayed when a meteor is about to hit a player

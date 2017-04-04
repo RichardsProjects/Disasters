@@ -25,10 +25,8 @@ public class StartWildfire extends BukkitRunnable {
 		loc.setY(loc.getY() + 1);
 		block = loc.getBlock();
 		block.setType(Material.FIRE);
-		
-		//TODO: Fix where fires start
-		
-		//Start fire at z - 1
+
+		// start fire at z - 1
 		loc = block.getLocation();
 		loc.setZ(loc.getZ() - 1);
 		Location loc2 = loc;
@@ -37,7 +35,7 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 		
-		//Start fire at z + 1
+		// start fire at z + 1
 		loc = block.getLocation();
 		loc.setZ(loc.getZ() + 1);
 		loc2 = loc;
@@ -46,7 +44,7 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 		
-		//Start fire at z - 2
+		// start fire at z - 2
 		loc = block.getLocation();
 		loc.setZ(loc.getZ() - 2);
 		loc2 = loc;
@@ -55,7 +53,7 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 		
-		//Start fire at z + 2
+		// start fire at z + 2
 		loc = block.getLocation();
 		loc.setZ(loc.getZ() + 2);
 		loc2 = loc;
@@ -64,7 +62,7 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 		
-		//Start fire at x - 1
+		// start fire at x - 1
 		loc = block.getLocation();
 		loc.setX(loc.getX() - 1);
 		loc2 = loc;
@@ -73,7 +71,7 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 		
-		//Start fire at x + 1
+		// start fire at x + 1
 		loc = block.getLocation();
 		loc.setX(loc.getX() + 1);
 		loc2 = loc;
@@ -82,7 +80,7 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 
-		//Start fire at x - 2
+		// start fire at x - 2
 		loc = block.getLocation();
 		loc.setX(loc.getX() - 2);
 		loc2 = loc;
@@ -91,7 +89,7 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 		
-		//Start fire at x + 2
+		// start fire at x + 2
 		loc = block.getLocation();
 		loc.setX(loc.getX() + 2);
 		loc2 = loc;
@@ -100,10 +98,10 @@ public class StartWildfire extends BukkitRunnable {
 			loc.getBlock().setType(Material.FIRE);
 		}
 		
-		//Update Fire spread game rule
+		// update Fire spread game rule
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule doFireTick true");
 		
-		//Message player that a fire has started near them
+		// message player that a fire has started near them
 		player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "A wildfire has started near your position.");	
 	}
 

@@ -1,5 +1,6 @@
 package net.richardsprojects.disasters.events;
 
+import net.richardsprojects.disasters.Config;
 import net.richardsprojects.disasters.Disasters;
 
 import org.bukkit.World;
@@ -18,23 +19,23 @@ private Disasters plugin;
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onImpact(ProjectileHitEvent e) {
-		if(e.getEntity().getWorld().getName().equals(Disasters.worldName)) {
+		if(e.getEntity().getWorld().getName().equals(Config.worldName)) {
 			if(e.getEntity().getCustomName() != null) {
-				if(e.getEntity().getCustomName().equals("SmallMeteor")) {
-					World w = this.plugin.getServer().getWorld(Disasters.worldName);
-					w.createExplosion(e.getEntity().getLocation(), Disasters.smallMeteor);
-					e.getEntity().getPassenger().remove();
-					e.getEntity().remove();
-				}
-				if(e.getEntity().getCustomName().equals("MediumMeteor")) {
-					World w = this.plugin.getServer().getWorld(Disasters.worldName);
-					w.createExplosion(e.getEntity().getLocation(), Disasters.mediumMeteor);
-					e.getEntity().getPassenger().remove();
-					e.getEntity().remove();
-				}
-				if(e.getEntity().getCustomName().equals("LargeMeteor")) {
-					World w = this.plugin.getServer().getWorld(Disasters.worldName);
-					w.createExplosion(e.getEntity().getLocation(), Disasters.largeMeteor);
+				String name = e.getEntity().getCustomName();
+				if(name.equals("small-sized") || name.equals("medium-sized")
+						|| name.equals("large-sized")) {
+					int power = 0;
+					if (name.equals("small-sized")) power = Config.smallMeteor;
+					if (name.equals("medium-sized")) power = Config.mediumMeteor;
+					if (name.equals("large-sized")) power = Config.largeMeteor;
+
+
+					World w = this.plugin.getServer().getWorld(Config.worldName);
+					double x = e.getEntity().getLocation().getX();
+					double y = e.getEntity().getLocation().getY();
+					double z = e.getEntity().getLocation().getZ();
+					w.createExplosion(x, y, z, power, Config.meteorDamageTerrain, Config.meteorDamageTerrain);
+
 					e.getEntity().getPassenger().remove();
 					e.getEntity().remove();
 				}

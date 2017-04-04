@@ -1,5 +1,6 @@
 package net.richardsprojects.disasters.events;
 
+import net.richardsprojects.disasters.Config;
 import net.richardsprojects.disasters.Disasters;
 import net.richardsprojects.disasters.Utils;
 import net.richardsprojects.disasters.runnables.AcidRainDamageHandler;
@@ -24,21 +25,22 @@ public class WeatherEvents implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onWeatherChange(WeatherChangeEvent e) {
-		if(e.getWorld().getName().equals(Disasters.worldName)) {
+		if(e.getWorld().getName().equals(Config.worldName) && Config.acidRainEnabled) {
 			if(!e.toWeatherState()) {
 				Disasters.currentlyRaining = false;
 				World w = e.getWorld();
 				for(Player player : w.getPlayers()) {
-					player.sendMessage(Utils.colorCodes(Disasters.acidRainStop));
+					player.sendMessage(Utils.colorCodes(Config.acidRainStop));
 				}
 			} else {
 				Disasters.currentlyRaining = true;
-				new AcidRainDisintegrationHandler(plugin).runTaskTimerAsynchronously(plugin, Disasters.acidRainDesintegrateTicks, Disasters.acidRainDesintegrateTicks);
+				new AcidRainDisintegrationHandler(plugin).runTaskTimerAsynchronously(plugin,
+						Config.acidRainDesintegrateTicks, Config.acidRainDesintegrateTicks);
 				new AcidRainDamageHandler(plugin).runTaskTimer(plugin, 40, 40);
 				World w = e.getWorld();
 				for(Player player : w.getPlayers()) {
-					player.setResourcePack(Disasters.texturePack);
-					player.sendMessage(Utils.colorCodes(Disasters.acidRainStart));
+					player.setResourcePack(Config.texturePack);
+					player.sendMessage(Utils.colorCodes(Config.acidRainStart));
 				}
 			}
 		}

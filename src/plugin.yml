@@ -1,6 +1,7 @@
 name: Disasters
 main: net.richardsprojects.disasters.Disasters
 version: 1.0.0
+prefix: '[Disasters]'
 
 permissions:
   disasters.wildfire.start:
@@ -17,10 +18,13 @@ commands:
   wildfire:
     description: Starts a wildfire disaster.
     usage: /<command>
+    permission: disasters.wildfire.start
   lightningstorm:
     description: Starts a Lightning Storm.
     usage: /<command>
+    permission: disasters.lightningstorm.start
   meteor:
     description: Summons a metor for a random player;
     usage: /<command>
+    permission: disasters.meteor.start
         

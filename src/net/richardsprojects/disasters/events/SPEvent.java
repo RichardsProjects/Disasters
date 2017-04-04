@@ -1,7 +1,10 @@
 package net.richardsprojects.disasters.events;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import net.richardsprojects.disasters.BlockData;
+import net.richardsprojects.disasters.Config;
 import net.richardsprojects.disasters.Disasters;
 
 import org.bukkit.ChatColor;
@@ -35,7 +38,7 @@ public class SPEvent implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBlockPlace(PlayerInteractEvent e) {
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if(e.getClickedBlock().getWorld().getName().equals(Disasters.worldName)) {
+			if(e.getClickedBlock().getWorld().getName().equals(Config.worldName)) {
 				if(e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getPlayer().getItemInHand() != null) {
 					if(e.getPlayer().getItemInHand().getType() == Material.SIGN) {
 						//Check if there is iron behind sign
@@ -155,18 +158,22 @@ public class SPEvent implements Listener {
 		if(e.getBlock().getType() == Material.IRON_BLOCK) {
 			int ironBlockX = e.getBlock().getX();
 			int ironBlockZ = e.getBlock().getZ();
-			System.out.println(ironBlockX + "|" + ironBlockZ);
-			for(Location loc : Disasters.lightningRodList) {
+
+
+			Iterator<Location> it = Disasters.lightningRodList.iterator();
+			while (it.hasNext()) {
+				Location loc = it.next();
 				if(loc.getBlockX() == ironBlockX && loc.getBlockZ() == ironBlockZ) {
 					int y = loc.getWorld().getHighestBlockYAt(ironBlockX, ironBlockZ) - 1;
-					if(e.getBlock().getY() == y || e.getBlock().getY() == y-1 || e.getBlock().getY() == y-2 || e.getBlock().getY() == y-3) {
-						//It's part of the lightning rod - so remove the lightning rod data and find and change the sign
+					if(e.getBlock().getY() == y || e.getBlock().getY() == y-1
+							|| e.getBlock().getY() == y-2 || e.getBlock().getY() == y-3) {
+						// remove the lightning rod data and find and change the sign
 						plugin.removeLightningRod(ironBlockX + "|" + ironBlockZ);
 						Location bottom = new Location(e.getBlock().getWorld(), ironBlockX, (y-3), ironBlockZ);
 						
 						e.getPlayer().sendMessage(ChatColor.RED + "You have just dismantled the lightning rod.");
 						
-						//Possible sign locations 
+						// possible sign locations
 						Location poss1 = new Location(bottom.getWorld(), bottom.getX(), bottom.getY(), bottom.getZ() + 1);
 						Location poss2 = new Location(bottom.getWorld(), bottom.getX() + 1, bottom.getY(), bottom.getZ());
 						Location poss3 = new Location(bottom.getWorld(), bottom.getX() - 1, bottom.getY(), bottom.getZ());
@@ -232,8 +239,10 @@ public class SPEvent implements Listener {
 			}
 			
 			if(ironBlock) {
-				//Check if iron block is a lightning rod
-				for(Location loc : Disasters.lightningRodList) {
+				// check if iron block is a lightning rod
+				Iterator<Location> it = Disasters.lightningRodList.iterator();
+				while (it.hasNext()) {
+					Location loc = it.next();
 					if(loc.getBlockX() == ironBlockX && loc.getBlockZ() == ironBlockZ) {
 						plugin.removeLightningRod(ironBlockX + "|" + ironBlockZ);
 						e.getPlayer().sendMessage(ChatColor.RED + "You have just dismantled the lightning rod.");

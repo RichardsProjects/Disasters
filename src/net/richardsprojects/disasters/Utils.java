@@ -161,28 +161,69 @@ public class Utils {
 		msg = msg.replace("&r", ChatColor.RESET + "");
 		return msg;
 	}
-	
+
+	/**
+	 * Returns the human readable name of a meteor by it's size int.
+	 *
+	 * @param size int 1-3
+	 * @return human readable name of size
+	 */
 	public static String meteorSize(int size) {
-		if(size == 1) {
+		if (size == 1) {
 			return "small-sized";
-		} else if(size == 2) {
+		} else if (size == 2) {
 			return "medium-sized";
-		} else if(size == 3) {
+		} else if (size == 3) {
 			return "large-sized";
 		} else {
 			return "";
 		}
 	}
-	
-	public static String meteorNameSize(int size) {
-		if(size == 1) {
-			return "SmallMeteor";
-		} else if(size == 2) {
-			return "MediumMeteor";
-		} else if(size == 3) {
-			return "LargeMeteor";
+
+	/**
+	 * A utility method for calculating BlockData from a String.
+	 *
+	 * @return BlockData or null if there was a problem
+	 */
+	public static BlockData getBlockData(String str) {
+		Material type = null;
+		int typeData = 0;
+		int intType = 0;
+		int returnType = 0;
+
+		if (str.contains(":")) {
+			String[] values = str.split(":");
+			if (values.length == 2) {
+				String firstPart = values[0];
+				String secondPart = values[1];
+
+				// calculate Material
+				try {
+					intType = Integer.parseInt(firstPart);
+					type = Material.getMaterial(intType);
+				} catch (NumberFormatException e) {
+					type = Material.matchMaterial(firstPart);
+				}
+
+				// calculate Data
+				try {
+					typeData = Integer.parseInt(secondPart);
+				} catch (NumberFormatException e) {
+				}
+			}
 		} else {
-			return "";
+			try {
+				intType = Integer.parseInt(str);
+				type = Material.getMaterial(intType);
+			} catch (NumberFormatException e) {
+				type = Material.matchMaterial(str);
+			}
+		}
+
+		if (type != null) {
+			return new BlockData(type, typeData);
+		} else {
+			return null;
 		}
 	}
 }

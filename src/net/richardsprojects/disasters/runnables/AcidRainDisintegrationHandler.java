@@ -1,6 +1,7 @@
 package net.richardsprojects.disasters.runnables;
 
-import net.richardsprojects.disasters.BlockReplaceData;
+import net.richardsprojects.disasters.BlockData;
+import net.richardsprojects.disasters.Config;
 import net.richardsprojects.disasters.Disasters;
 import net.richardsprojects.disasters.Utils;
 
@@ -21,9 +22,9 @@ public class AcidRainDisintegrationHandler extends BukkitRunnable {
 	}
 	
 	public void run() {
-		if(plugin.getServer().getWorld(Disasters.worldName) != null) {
+		if(plugin.getServer().getWorld(Config.worldName) != null) {
 			if(Disasters.currentlyRaining) {
-				World world = plugin.getServer().getWorld(Disasters.worldName);
+				World world = plugin.getServer().getWorld(Config.worldName);
 				if(world.getPlayers().size() > 0) {
 					for(final Player p : world.getPlayers()) {
 						final BukkitTask bukkitTask = new BukkitRunnable() {
@@ -38,14 +39,18 @@ public class AcidRainDisintegrationHandler extends BukkitRunnable {
 									block = new Location(p.getWorld(), xCoord, yCoord, zCoord).getBlock();
 								}
 								Material blockMat = block.getType();
-								for (BlockReplaceData data : Disasters.disintegrationData) {
-									if (data.getType() == blockMat && block.getData() == data.getTypeData()) {
-										String msg = "A block has been changed from ";
-										msg = msg + data.getType().name() + " to " + data.getReplace().name();
-										plugin.log.info(msg);
-										block.setType(data.getReplace());
-										block.setData((byte) data.getReplaceData());
-										break;
+								for(BlockData source : Disasters.disintegrationData.keySet()) {
+									if(source.getType() == blockMat) {
+										BlockData replace = Disasters.disintegrationData.get(source);
+
+										if (replace != null) {
+											String msg = "A block has been changed from " + source.getType().name()
+													+ " to " + replace.getType().name();
+											plugin.log.info(msg);
+											block.setType(replace.getType());
+											block.setData(new Integer(replace.getTypeData()).byteValue());
+											break;
+										}
 									}
 								}
 							}
