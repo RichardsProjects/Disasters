@@ -8,6 +8,12 @@ import net.md_5.bungee.api.ChatColor;
 import net.richardsprojects.disasters.Disasters;
 import net.richardsprojects.disasters.runnables.WildfireHandler;
 
+/**
+ * Command executor for the /wildfire command
+ *
+ * @author RichardB122
+ * @version 4/6/17
+ */
 public class WildfireCommand implements CommandExecutor {
 	
 	private Disasters plugin;
@@ -20,7 +26,8 @@ public class WildfireCommand implements CommandExecutor {
 		if(sender.hasPermission("disasters.wildfire.start")) {
 			new WildfireHandler(plugin, false).runTaskAsynchronously(plugin);
 		} else {
-			sender.sendMessage(ChatColor.DARK_RED + "You do not have permission to perform that command.");
+			String m = ChatColor.DARK_RED + "You do not have permission to perform that command.";
+			sender.sendMessage(m);
 		}
 		return true;
 	}

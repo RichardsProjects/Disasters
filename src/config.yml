@@ -22,6 +22,7 @@ meteorsEnabled: true # whether meteor showers occur
 lightningstormsEnabled: true # whether lightning storms occur
 acidRainEnabled: true # whether acid rain storms occur
 wildfiresEnabled: true # whether wildfires are enabled
+wildfiresSpread: false # Don't enable this on a world you don't want to be ravaged by fire
 
 # -----------
 # Messages

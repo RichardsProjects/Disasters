@@ -11,6 +11,13 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * A BukkitRunnable that damages players if they are in a Disasters world and
+ * exposed to the acid rain.
+ *
+ * @author RichardB122
+ * @version 4/8/17
+ */
 public class AcidRainDamageHandler extends BukkitRunnable {
 
 	private Disasters plugin;
@@ -20,33 +27,35 @@ public class AcidRainDamageHandler extends BukkitRunnable {
 	}
 	
 	public void run() {
-		if(plugin.getServer().getWorld(Config.worldName) != null) {
-			if(Disasters.currentlyRaining) {
-				World world = plugin.getServer().getWorld(Config.worldName);
-				for(Player player : world.getPlayers()) {
-					//Check that they are not in a desert biome
-					if(player.getLocation().getBlock().getBiome() != Biome.DESERT 
-							&& player.getLocation().getBlock().getBiome() != Biome.DESERT_HILLS 
-							&& player.getLocation().getBlock().getBiome() != Biome.DESERT_HILLS)
-					{
-						//Check if there is a block above them
-						Location loc = player.getLocation();
-						boolean blockAboveThem = false;
-						int blockY = loc.getBlockY();
-						while(blockY <= 256) {
-							Block b = player.getLocation().getWorld().getBlockAt(loc.getBlockX(), blockY, loc.getBlockZ());
-							if(b.getType() != Material.AIR) {
-								blockAboveThem = true;
-								break;
-							}
-							blockY = blockY + 1;
+		if (plugin.getServer().getWorld(Config.worldName) == null) return;
+
+		if(Disasters.currentlyRaining) {
+			World world = plugin.getServer().getWorld(Config.worldName);
+
+			// damage players only in the Disasters world
+			for(Player player : world.getPlayers()) {
+				// check that they are not in a desert biome
+				if(player.getLocation().getBlock().getBiome() != Biome.DESERT
+						&& player.getLocation().getBlock().getBiome() != Biome.DESERT_HILLS
+						&& player.getLocation().getBlock().getBiome() != Biome.DESERT_HILLS)
+				{
+					// check if there is a block above them
+					Location loc = player.getLocation();
+					boolean blockAboveThem = false;
+					int blockY = loc.getBlockY();
+					while(blockY <= 256) {
+						Block b = player.getLocation().getWorld().getBlockAt(loc.getBlockX(), blockY, loc.getBlockZ());
+						if(b.getType() != Material.AIR) {
+							blockAboveThem = true;
+							break;
 						}
-						if(!blockAboveThem) player.damage(1);
+						blockY = blockY + 1;
 					}
+					if(!blockAboveThem) player.damage(1);
 				}
-			} else {
-				this.cancel();
 			}
+		} else {
+			this.cancel();
 		}
 	}
 

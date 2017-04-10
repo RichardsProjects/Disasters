@@ -8,6 +8,12 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * A BukkitRunnable that manages when lightning storms start and complete.
+ *
+ * @author RichardB122
+ * @version 4/8/17
+ */
 public class LightningStormStarter extends BukkitRunnable {
 
 	private boolean startRandomly;
@@ -20,33 +26,33 @@ public class LightningStormStarter extends BukkitRunnable {
 	
 	public void run() {
 		World world = plugin.getServer().getWorld(Config.worldName);
-		if(world != null) {
-			if(!Disasters.lightningStormInProgress) {
-				if(world.getPlayers().size() > 0) {
-					//Calculate chance
-					int randomNumber = Utils.randInt(1, Config.lightningStormChanceMax);
-					if(randomNumber <= Config.lightningStormChance || !startRandomly) {
-						//Notify all players
-						for(Player p : world.getPlayers()) {
-							p.sendMessage(Utils.colorCodes(Config.lightningStormStart));
-						}
-						
-						//Run Lightning storm stop task after configurable delay
-						new LightningStormStop(plugin).runTaskLaterAsynchronously(plugin, Config.lightningStormDuration);
-						new LightningStormStop(plugin).runTaskLaterAsynchronously(plugin, Config.lightningStormDuration);
+		if (world == null) return;
 
-						//Reset and start strike method
-						new BukkitRunnable() {
-							public void run() {
-								new LightningStrikeHandler(plugin).runTaskTimerAsynchronously(plugin, 0, 20);
-							}
-						}.runTask(plugin);
-						
-						Disasters.lightningStormInProgress = true;
-						world.setThundering(true);
-					}
+		// only start a new storm if none is in progress and at least one player is online
+		if(!Disasters.lightningStormInProgress && world.getPlayers().size() > 0) {
+			// calculate chance
+			int randomNumber = Utils.randInt(1, Config.lightningStormChanceMax);
+			if(randomNumber <= Config.lightningStormChance || !startRandomly) {
+
+				// notify all players in world
+				for(Player p : world.getPlayers()) {
+					p.sendMessage(Utils.colorCodes(Config.lightningStormStart));
 				}
+
+				// run Lightning storm stop task after configurable delay
+				int duration = Config.lightningStormDuration;
+				new LightningStormStop(plugin).runTaskLaterAsynchronously(plugin, duration);
+
+				// reset and start strike method
+				new BukkitRunnable() {
+					public void run() {
+						new LightningStrikeHandler(plugin).runTaskTimerAsynchronously(plugin, 0, 20);
+					}
+				}.runTask(plugin);
+
+				Disasters.lightningStormInProgress = true;
+				world.setThundering(true);
 			}
-		}	
+		}
 	}
 }

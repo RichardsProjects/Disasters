@@ -1,5 +1,8 @@
 package net.richardsprojects.disasters;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import net.md_5.bungee.api.ChatColor;
@@ -8,158 +11,69 @@ import org.bukkit.Material;
 
 
 public class Utils {
-	
+
+	private static Material[] flammable = {Material.WOOD, Material.LEAVES, Material.LEAVES_2,
+			Material.LOG, Material.LOG_2, Material.WOOD_STEP, Material.ACACIA_FENCE, Material.FENCE,
+			Material.BIRCH_FENCE, Material.DARK_OAK_FENCE, Material.SPRUCE_FENCE,
+			Material.JUNGLE_FENCE, Material.VINE, Material.WOOL, Material.BOOKSHELF,
+			Material.HAY_BLOCK, Material.ACACIA_STAIRS, Material.BIRCH_WOOD_STAIRS,
+			Material.WOOD_STAIRS, Material.JUNGLE_WOOD_STAIRS, Material.DARK_OAK_STAIRS,
+			Material.COAL_BLOCK, Material.YELLOW_FLOWER, Material.AIR};
+
+	private static Material[] foliage = {Material.LONG_GRASS, Material.DEAD_BUSH,
+			Material.YELLOW_FLOWER, Material.RED_ROSE, Material.DOUBLE_PLANT};
+
+	/**
+	 * Generates a random integer in the specified range.
+	 *
+	 * @param min minimum value
+	 * @param max maximum value
+	 * @return the generated random integer
+	 */
 	public static int randInt(int min, int max) {
-	    Random rand = new Random();
-	    int randomNum = rand.nextInt((max - min) + 1) + min;
-	    return randomNum;
+	    return new Random().nextInt((max - min) + 1) + min;
 	}
-	
+
+	/**
+	 * Simple helper method that returns whether a Material is flammable.
+	 *
+	 * @param mat material to check
+	 * @return whether or not it is flammable
+	 */
 	public static boolean isFlammable(Material mat) {
-		if(mat == Material.WOOD) {
-			return true;
-		} else if(mat == Material.LEAVES) {
-			return true;			
-		} else if(mat == Material.LEAVES_2) {
-			return true;
-		} else if(mat == Material.LOG) {
-			return true;
-		} else if(mat == Material.LOG_2) {
-			return true;
-		} else if(mat == Material.WOOD_STEP) {
-			return true;
-		} else if(mat == Material.ACACIA_FENCE) {
-			return true;
-		} else if(mat == Material.FENCE) {
-			return true;
-		} else if(mat == Material.BIRCH_FENCE) {
-			return true;
-		} else if(mat == Material.DARK_OAK_FENCE) {
-			return true;
-		} else if(mat == Material.SPRUCE_FENCE) {
-			return true;
-		} else if(mat == Material.JUNGLE_FENCE) {
-			return true;
-		} else if(mat == Material.VINE) {
-			return true;
-		} else if(mat == Material.WOOL) {
-			return true;
-		} else if(mat == Material.BOOKSHELF) {
-			return true;
-		} else if(mat == Material.HAY_BLOCK) {
-			return true;
-		} else if(mat == Material.ACACIA_STAIRS) {
-			return true;
-		} else if(mat == Material.BIRCH_WOOD_STAIRS) {
-			return true;
-		} else if(mat == Material.WOOD_STAIRS) {
-			return true;
-		} else if(mat == Material.JUNGLE_WOOD_STAIRS) {
-			return true;
-		} else if(mat == Material.DARK_OAK_STAIRS) {
-			return true;
-		} else if(mat == Material.COAL_BLOCK) {
-			return true;
-		} else if(mat == Material.YELLOW_FLOWER) {
-			return true;
-		} else {
-			return false;
-		}
+		ArrayList<Material> flammables = new ArrayList<>();
+		Collections.addAll(flammables, flammable);
+		return flammables.contains(mat);
 	}
-	
+
+	/**
+	 * Simple helper method that returns whether a Material is spreadable.
+	 *
+	 * @param mat material to check
+	 * @return whether or not it is flammable
+	 */
 	public static boolean isSpreadable(Material mat) {
-		if(mat == Material.WOOD) {
-			return true;
-		} else if(mat == Material.LEAVES) {
-			return true;			
-		} else if(mat == Material.LEAVES_2) {
-			return true;
-		} else if(mat == Material.LOG) {
-			return true;
-		} else if(mat == Material.LOG_2) {
-			return true;
-		} else if(mat == Material.WOOD_STEP) {
-			return true;
-		} else if(mat == Material.ACACIA_FENCE) {
-			return true;
-		} else if(mat == Material.FENCE) {
-			return true;
-		} else if(mat == Material.BIRCH_FENCE) {
-			return true;
-		} else if(mat == Material.DARK_OAK_FENCE) {
-			return true;
-		} else if(mat == Material.SPRUCE_FENCE) {
-			return true;
-		} else if(mat == Material.JUNGLE_FENCE) {
-			return true;
-		} else if(mat == Material.VINE) {
-			return true;
-		} else if(mat == Material.WOOL) {
-			return true;
-		} else if(mat == Material.BOOKSHELF) {
-			return true;
-		} else if(mat == Material.HAY_BLOCK) {
-			return true;
-		} else if(mat == Material.ACACIA_STAIRS) {
-			return true;
-		} else if(mat == Material.BIRCH_WOOD_STAIRS) {
-			return true;
-		} else if(mat == Material.WOOD_STAIRS) {
-			return true;
-		} else if(mat == Material.JUNGLE_WOOD_STAIRS) {
-			return true;
-		} else if(mat == Material.DARK_OAK_STAIRS) {
-			return true;
-		} else if(mat == Material.COAL_BLOCK) {
-			return true;
-		} else if(mat == Material.YELLOW_FLOWER) {
-			return true;
-		} else if(mat == Material.GRASS) {
-			return true;
-		} else {
-			return false;
-		}
+		ArrayList<Material> spreadables = new ArrayList<>();
+		Collections.addAll(spreadables, flammable);
+		spreadables.remove(Material.AIR);
+		return spreadables.contains(mat);
 	}
 	
 	public static boolean isFoliage(Material mat) {
-		if(mat == Material.LONG_GRASS) {
-			return true;
-		} else if(mat == Material.DEAD_BUSH) {
-			return true;
-		} else if(mat == Material.YELLOW_FLOWER) {
-			return true;
-		} else if(mat == Material.RED_ROSE) {
-			return true;
-		} else if(mat == Material.DOUBLE_PLANT) {
-			return true;
-		} else {
-			return false;
-		}
+		ArrayList<Material> foliages = new ArrayList<>();
+		Collections.addAll(foliages, foliage);
+		return foliages.contains(mat);
 	}
-	
+
+	/**
+	 * Simple helper method that translates messages that have color codes
+	 * defined with an ampersand to traditional Minecraft formatting codes.
+	 *
+	 * @param msg message to translate codes on
+	 * @return the newly formatted message
+	 */
 	public static String colorCodes(String msg) {
-		msg = msg.replace("&0", ChatColor.BLACK + "");
-		msg = msg.replace("&1", ChatColor.DARK_BLUE + "");
-		msg = msg.replace("&2", ChatColor.DARK_GREEN + "");
-		msg = msg.replace("&3", ChatColor.DARK_AQUA + "");
-		msg = msg.replace("&4", ChatColor.DARK_RED + "");
-		msg = msg.replace("&5", ChatColor.DARK_PURPLE + "");
-		msg = msg.replace("&6", ChatColor.GOLD + "");
-		msg = msg.replace("&7", ChatColor.GRAY + "");
-		msg = msg.replace("&8", ChatColor.DARK_GRAY + "");
-		msg = msg.replace("&9", ChatColor.BLUE + "");
-		msg = msg.replace("&a", ChatColor.GREEN + "");
-		msg = msg.replace("&b", ChatColor.AQUA + "");
-		msg = msg.replace("&c", ChatColor.RED + "");
-		msg = msg.replace("&d", ChatColor.LIGHT_PURPLE + "");
-		msg = msg.replace("&e", ChatColor.YELLOW + "");
-		msg = msg.replace("&f", ChatColor.WHITE + "");
-		msg = msg.replace("&l", ChatColor.BOLD + "");
-		msg = msg.replace("&m", ChatColor.STRIKETHROUGH + "");
-		msg = msg.replace("&n", ChatColor.UNDERLINE + "");
-		msg = msg.replace("&o", ChatColor.ITALIC + "");
-		msg = msg.replace("&r", ChatColor.RESET + "");
-		return msg;
+		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 
 	/**
@@ -188,28 +102,26 @@ public class Utils {
 	public static BlockData getBlockData(String str) {
 		Material type = null;
 		int typeData = 0;
-		int intType = 0;
-		int returnType = 0;
+		int intType;
 
 		if (str.contains(":")) {
 			String[] values = str.split(":");
 			if (values.length == 2) {
-				String firstPart = values[0];
-				String secondPart = values[1];
+				String material = values[0];
+				String dataValue = values[1];
 
 				// calculate Material
 				try {
-					intType = Integer.parseInt(firstPart);
+					intType = Integer.parseInt(material);
 					type = Material.getMaterial(intType);
 				} catch (NumberFormatException e) {
-					type = Material.matchMaterial(firstPart);
+					type = Material.matchMaterial(material);
 				}
 
-				// calculate Data
+				// determine data value (empty catch block is intended)
 				try {
-					typeData = Integer.parseInt(secondPart);
-				} catch (NumberFormatException e) {
-				}
+					typeData = Integer.parseInt(dataValue);
+				} catch (NumberFormatException e) {}
 			}
 		} else {
 			try {

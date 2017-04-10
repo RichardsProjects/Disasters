@@ -1,6 +1,5 @@
 package net.richardsprojects.disasters;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.BufferedReader;
@@ -48,6 +47,7 @@ public class Config {
     public static int wildfireChance = 1;
     public static int wildfireChanceMax = 5;
     public static int wildfireTickTime = 12000;
+    public static boolean wildfiresSpread = false;
 
     /**
      * Helper method that loads data from the configuration.
@@ -65,7 +65,8 @@ public class Config {
 
                 String currentLine;
                 while ((currentLine = reader.readLine()) != null) {
-                    out.append(currentLine + "\n");
+                    currentLine = currentLine + "\n";
+                    out.append(currentLine);
                 }
                 out.close();
                 reader.close();
@@ -73,11 +74,11 @@ public class Config {
                 config = new YamlConfiguration();
                 config.load(new File(Disasters.instance.dataFolder + File.separator + "config.yml"));
             } catch (Exception e) {
-                Disasters.instance.log.info("There was an error setting up the config file...");
+                Disasters.log.info("There was an error setting up the config file...");
                 e.printStackTrace();
             }
 
-            Disasters.instance.log.info("Generated config.yml");
+            Disasters.log.info("Generated config.yml");
         } else {
             config = (YamlConfiguration) Disasters.instance.getConfig();
 
@@ -108,6 +109,7 @@ public class Config {
             lightningstormsEnabled = config.getBoolean("lightningstormsEnabled");
             acidRainEnabled = config.getBoolean("acidRainEnabled");
             wildfiresEnabled = config.getBoolean("wildfiresEnabled");
+            wildfiresSpread = config.getBoolean("wildfiresSpread");
         }
     }
 }

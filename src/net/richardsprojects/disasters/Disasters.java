@@ -1,7 +1,6 @@
 package net.richardsprojects.disasters;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import net.richardsprojects.disasters.commands.WildfireCommand;
 import net.richardsprojects.disasters.events.ImpactEvent;
 import net.richardsprojects.disasters.events.PlayerJoinEvent;
 import net.richardsprojects.disasters.events.WeatherEvents;
-import net.richardsprojects.disasters.events.SPEvent;
+import net.richardsprojects.disasters.events.LightningRodEvents;
 import net.richardsprojects.disasters.runnables.AcidRainDamageHandler;
 import net.richardsprojects.disasters.runnables.AcidRainDisintegrationHandler;
 import net.richardsprojects.disasters.runnables.LightningStormStarter;
@@ -24,17 +23,14 @@ import net.richardsprojects.disasters.runnables.WildfireHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import sun.org.mozilla.javascript.ast.Block;
 
 public class Disasters extends JavaPlugin {
 
-	private FileConfiguration acidRain = new YamlConfiguration();
 	private FileConfiguration lightningRod = new YamlConfiguration();
 	private FileConfiguration lightning = new YamlConfiguration();
 	private PluginManager pm;
@@ -58,13 +54,35 @@ public class Disasters extends JavaPlugin {
 		
 		dataFolder = getDataFolder();
 		if(!dataFolder.exists()) {
-			dataFolder.mkdirs();
+			if (!dataFolder.mkdirs()) {
+				log.info("There was an error setting up the data folder.");
+				log.info("Plugin has been disabled...");
+				pm.disablePlugin(this);
+			}
 		}
 		
 		Config.loadConfig();
-		loadAcidRainData();
-		loadLightningRods();
-		loadLightningData();
+
+		// attempt to load acid rain desintegration data
+		if (!loadAcidRainData()) {
+			log.info("There was a problem accessing the file acidRain.yml");
+			log.info("Plugin has been disabled...");
+			pm.disablePlugin(this);
+		}
+
+		// attempt to load lightning rod list
+		if (!loadLightningRods()) {
+			log.info("There was a problem accessing the file lightningRods.yml");
+			log.info("Plugin has been disabled...");
+			pm.disablePlugin(this);
+		}
+
+		// attempt to load lightning rod data
+		if (!loadLightningData()) {
+			log.info("There was a problem accessing the lightning.yml file");
+			log.info("Plugin has been disabled...");
+			pm.disablePlugin(this);
+		}
 
 		// start handlers
 		if (Config.wildfiresEnabled) {
@@ -87,7 +105,7 @@ public class Disasters extends JavaPlugin {
 		
 		// setup events
 		pm.registerEvents(new WeatherEvents(this), this);
-		pm.registerEvents(new SPEvent(this), this);
+		pm.registerEvents(new LightningRodEvents(this), this);
 		pm.registerEvents(new PlayerJoinEvent(), this);
 		pm.registerEvents(new ImpactEvent(this), this);
 		
@@ -105,28 +123,24 @@ public class Disasters extends JavaPlugin {
 			}
 		}
 	}
-	
-	private void loadAcidRainData() {
-		this.reloadConfig();
+
+	/**
+	 * A helper method that loads the data on what blocks are changed to by
+	 * acid rain from the acidRain.yml file. Returns whether it was successful
+	 * or not.
+	 *
+	 * @return whether it was successful or not
+	 */
+	private boolean loadAcidRainData() {
+		YamlConfiguration acidRain = new YamlConfiguration();
 		
 		File file = new File(getDataFolder() + File.separator + "acidRain.yml");
 		if(!file.exists()) {
 			try {
-				file.createNewFile();
-				acidRain = new YamlConfiguration();
+				if (!file.createNewFile()) return false;
 				acidRain.load(getDataFolder() + File.separator + "acidRain.yml");
-			} catch (FileNotFoundException e) {
-				log.info("[Disasters] There was a problem loading data from the acidRain.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (IOException e) {
-				log.info("[Disasters] There was a problem loading data from the acidRain.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (InvalidConfigurationException e) {
-				log.info("[Disasters] There was a problem loading data from the acidRain.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
+			} catch (Exception e) {
+				return false;
 			}
 			
 			acidRain.addDefault("4", "0");
@@ -138,28 +152,16 @@ public class Disasters extends JavaPlugin {
 			
 			try {
 				acidRain.save(getDataFolder() + File.separator + "acidRain.yml");
-				log.info("[Disasters] Generated acidRain.yml");
+				log.info("Generated acidRain.yml");
 			} catch (IOException e) {
-				log.info("[Disasters] Error cannot generate acidRain.yml");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
+				return false;
 			}
 		} else {
 			try {
 				acidRain = new YamlConfiguration();
 				acidRain.load(getDataFolder() + File.separator + "acidRain.yml");
-			} catch (FileNotFoundException e) {
-				log.info("[Disasters] There was a problem loading data from the acidRain.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (IOException e) {
-				log.info("[Disasters] There was a problem loading data from the acidRain.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (InvalidConfigurationException e) {
-				log.info("[Disasters] There was a problem loading data from the acidRain.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
+			} catch (Exception e) {
+				return false;
 			}
 			
 			for(String key : acidRain.getKeys(true)) {
@@ -168,44 +170,36 @@ public class Disasters extends JavaPlugin {
 				BlockData replace = Utils.getBlockData(value);
 
 				if(source == null || replace == null) {
-					log.info("[Disasters] There was a problem parsing a section of the acidRain.yml file");
-					log.info("[Disasters] Either '" + key + "' or '" + value + "' is not valid");
+					log.info("There was a problem parsing a section of the acidRain.yml file");
+					log.info("Either '" + key + "' or '" + value + "' is not valid");
 				} else {
 					Disasters.disintegrationData.put(source, replace);
 				}
 			}
 		}
+
+		return true;
 	}
-	
-	private void loadLightningRods() {
+
+	/**
+	 * A helper method that loads lightning rod positions from the
+	 * lightningRods.yml file. Returns whether it was successful or not.
+	 *
+	 * @return whether it was successful or not
+	 */
+	private boolean loadLightningRods() {
 		File file = new File(getDataFolder() + File.separator + "lightningRods.yml");
 		if(!file.exists()) {
 			try {
-				file.createNewFile();
-			} catch (FileNotFoundException e) {
-				log.info("[Disasters] There was a problem loading data from the lightningRods.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (IOException e) {
-				log.info("[Disasters] There was a problem loading data from the lightningRods.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			}			
+				if (!file.createNewFile()) return false;
+			} catch (Exception e) {
+				return false;
+			}
 		} else {
 			try {
 				lightningRod.load(getDataFolder() + File.separator + "lightningRods.yml");
-			} catch (FileNotFoundException e) {
-				log.info("[Disasters] There was a problem loading data from the lightningRods.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (IOException e) {
-				log.info("[Disasters] There was a problem loading data from the lightningRods.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (InvalidConfigurationException e) {
-				log.info("[Disasters] There was a problem loading data from the lightningRods.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
+			} catch (Exception e) {
+				return false;
 			}
 			
 			for(String key : lightningRod.getKeys(true)) {
@@ -216,33 +210,30 @@ public class Disasters extends JavaPlugin {
 					Location loc = new Location(getServer().getWorld(Config.worldName), x, 0, z);
 					lightningRodList.add(loc);
 				} catch(NumberFormatException e) {
-					log.info("[Disasters] There was a problem parsing a section of the lightningRods.yml file");
+					log.info("There was a problem parsing a section of the lightningRods.yml file");
 				}
 			}
 		}
+
+		return true;
 	}
-	
+
+	public boolean isLightningRodHere(String loc) {
+		return lightningRod.getKeys(true).contains(loc);
+	}
+
+
 	public void addLightningRod(Location loc, Player p) {
 		try {
-			boolean rodAlreadyExists = false;
-			String key = "";
-			key = ((int) loc.getBlockX()) + "|" + ((int) loc.getBlockZ());
+			String key = loc.getBlockX() + "|" + loc.getBlockZ();
 			String value = "lightingRod";
 			lightningRod.load(getDataFolder() + File.separator + "lightningRods.yml");
 			
-			for(String cKey : lightningRod.getKeys(true)) {
-				if(cKey.equals(key)) {
-					rodAlreadyExists = true;
-					break;
-				}
-			}
-			
-			if(!rodAlreadyExists) {
+			if(!isLightningRodHere(key)) {
 				lightningRod.set(key, value);
 				lightningRod.save(getDataFolder() + File.separator + "lightningRods.yml");
 				Location loc2 = new Location(getServer().getWorld(Config.worldName), loc.getBlockX(), 0, loc.getBlockZ());
 				lightningRodList.add(loc2);
-				p.sendMessage(ChatColor.GREEN + "Lightning rod created successfully!");
 			} else {
 				p.sendMessage(ChatColor.RED + "There is already a lightning rod there.");
 			}
@@ -265,35 +256,37 @@ public class Disasters extends JavaPlugin {
 			loadLightningRods();
 		} catch(Exception e) {
 			e.printStackTrace();
-			log.info("[Disasters] An error occured while attempting to remove a lighting rod.");
+			log.info("An error occured while attempting to remove a lighting rod.");
 		}
 	}
 
 	/**
-	 * A helper method that loads lightning rod data from the lightning.yml
-	 * file on disk.
+	 * A helper method that loads information on what blocks are changed to and
+	 * from when struck by lightning from the lightning.yml file on disk. It
+	 * will return false if it encounters a problem while attempting to load
+	 * the data.
+	 *
+	 * @return whether or not it was able to load the data
 	 */
-	private void loadLightningData() {
+	private boolean loadLightningData() {
 		this.reloadConfig();
 		
 		File file = new File(getDataFolder() + File.separator + "lightning.yml");
 		if(!file.exists()) {
+			boolean failure = false;
 			try {
-				file.createNewFile();
-				lightning = new YamlConfiguration();
-				lightning.load(getDataFolder() + File.separator + "lightning.yml");
-			} catch (FileNotFoundException e) {
-				log.info("[Disasters] There was a problem loading data from the lightning.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (IOException e) {
-				log.info("[Disasters] There was a problem loading data from the lightning.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (InvalidConfigurationException e) {
-				log.info("[Disasters] There was a problem loading data from the lightning.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
+				if (file.createNewFile()) {
+					lightning = new YamlConfiguration();
+					lightning.load(getDataFolder() + File.separator + "lightning.yml");
+				} else {
+					failure = true;
+				}
+			} catch (Exception e) {
+				failure = true;
+			}
+
+			if (failure) {
+				return false;
 			}
 			
 			lightning.addDefault("12", 20);
@@ -305,27 +298,17 @@ public class Disasters extends JavaPlugin {
 			
 			try {
 				lightning.save(getDataFolder() + File.separator + "lightning.yml");
-				log.info("[Disasters] Generated lightning.yml");
+				log.info("Generated lightning.yml");
 			} catch (IOException e) {
-				log.info("[Disasters] Error cannot generate lightning.yml");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
+				return false;
 			}
 		} else {
 			try {
 				lightning = new YamlConfiguration();
 				lightning.load(getDataFolder() + File.separator + "lightning.yml");
-			} catch (FileNotFoundException e) {
-				log.info("[Disasters] There was a problem loading data from the lightning.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (IOException e) {
-				log.info("[Disasters] There was a problem loading data from the lightning.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
-				pm.disablePlugin(this);
-			} catch (InvalidConfigurationException e) {
-				log.info("[Disasters] There was a problem loading data from the lightning.yml file");
-				log.info("[Disasters] Plugin has been disabled...");
+			} catch (Exception e) {
+				log.info("There was a problem loading data from the lightning.yml file");
+				log.info("Plugin has been disabled...");
 				pm.disablePlugin(this);
 			}
 			
@@ -335,12 +318,14 @@ public class Disasters extends JavaPlugin {
 				BlockData replace = Utils.getBlockData(value);
 				
 				if(source == null || replace == null) {
-					log.info("[Disasters] There was a problem parsing a section of the lightning.yml file");
-					log.info("[Disasters] Either '" + key + "' or '" + value + "' is not valid");
+					log.info("There was a problem parsing a section of the lightning.yml file");
+					log.info("Either '" + key + "' or '" + value + "' is not valid");
 				} else {
 					Disasters.lightningData.put(source, replace);
 				}
 			}
 		}
+
+		return true;
 	}
 }

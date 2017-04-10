@@ -8,6 +8,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Command executor for the /meteor command.
+ *
+ * @author RichardB122
+ * @version 4/6/17
+ */
 public class MeteorCommand implements CommandExecutor {
 
 private Disasters plugin;

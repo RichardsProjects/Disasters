@@ -8,11 +8,17 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * A simple BukkitRunnable that terminates the lightning storm.
+ *
+ * @author RichardB122
+ * @version 4/8/17
+ */
 public class LightningStormStop extends BukkitRunnable {
 
 	private Disasters plugin;
 	
-	public LightningStormStop(Disasters plugin) {
+	LightningStormStop(Disasters plugin) {
 		this.plugin = plugin;
 	}
 	

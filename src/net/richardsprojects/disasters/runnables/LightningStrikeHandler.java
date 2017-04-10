@@ -12,79 +12,101 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.richardsprojects.disasters.Disasters;
 import net.richardsprojects.disasters.Utils;
 
+/**
+ * BukkitRunnable for striking the Disaster's world with lightning during a
+ * lightning storm.
+ *
+ * @author RichardB122
+ * @version 4/8/17
+ */
 public class LightningStrikeHandler extends BukkitRunnable {
 
 	private Disasters plugin;
-	private int totalTimes;
 	private int timesLeft;
 	
-	public LightningStrikeHandler(Disasters plugin) {
+	LightningStrikeHandler(Disasters plugin) {
 		this.plugin = plugin;
-		this.totalTimes = Config.lightningStormDuration/20;
-		this.timesLeft = this.totalTimes;
+		timesLeft = Config.lightningStormDuration / 20;
 	}
 
 	public void run() {
+
+		if(this.timesLeft <= 0) this.cancel();
+
+		World w = plugin.getServer().getWorld(Config.worldName);
+		if(w == null) return;
+
 		// loop through all players and strike lightning near them
-		if(this.timesLeft > 0) {
-			if(plugin.getServer().getWorld(Config.worldName) != null) {
-				World w = plugin.getServer().getWorld(Config.worldName);
+		for (Player p : w.getPlayers()) {
+			// pick a random location within 25 blocks of the player
+			Location loc = p.getLocation();
+			int x = Utils.randInt(loc.getBlockX() - 25, loc.getBlockX() + 25);
+			int z = Utils.randInt(loc.getBlockZ() - 25, loc.getBlockZ() + 25);
+			Location l = new Location(w, x, w.getHighestBlockYAt(x, z), z);
 
-				if(w.getPlayers().size() > 0) {
-					for(Player p : w.getPlayers()) {
-						int xCoord = Utils.randInt(p.getLocation().getBlockX() - 25, p.getLocation().getBlockX() + 25);
-						int zCoord = Utils.randInt(p.getLocation().getBlockZ() - 25, p.getLocation().getBlockZ() + 25);
-						Location l = new Location(w, xCoord, w.getHighestBlockYAt(xCoord, zCoord), zCoord);
-						
-						// check if there is a lightning rod in range
-						for(Location rod : Disasters.lightningRodList) {
-							if(!(rod.getX() == l.getX() && rod.getZ() == l.getZ())) {
-								int topRightX = (int) (rod.getX() + 10);
-								int bottomRightZ = (int) (rod.getZ() - 10);
-								if(l.getX() <= topRightX && l.getX() >= topRightX - 20 && l.getZ() >= bottomRightZ && l.getZ() <= bottomRightZ + 20) {
-									l = new Location(w, rod.getX(), w.getHighestBlockYAt((int) rod.getX(), (int) rod.getZ()), rod.getZ());
-									break;
-								}
-							}
-						}
-						
-						//Strike Lightning there
-						w.strikeLightning(l);
-						
-						final Location l2 = l;
-						
-						new BukkitRunnable() {
-							public void run() {
-								// change ground if applicable
-								l2.setY(l2.getY() - 1);
-								Material blockMat = l2.getBlock().getType();
-								Block block = l2.getBlock();
-								for(BlockData source : Disasters.lightningData.keySet()) {
-									if(source.getType() == blockMat) {
-										BlockData replace = Disasters.lightningData.get(source);
-
-										if (replace != null) {
-											String msg = "A block has been changed from " + source.getType().name()
-													+ " to " + replace.getType().name();
-											plugin.log.info(msg);
-											block.setType(replace.getType());
-											block.setData(new Integer(replace.getTypeData()).byteValue());
-											break;
-										}
-									}
-								}
-							}							
-						}.runTask(plugin);
-						
+			// check if there is a lightning rod in range
+			for(Location rod : Disasters.lightningRodList) {
+				if(!(rod.getX() == l.getX() && rod.getZ() == l.getZ())) {
+					int topRightX = (int) (rod.getX() + 10);
+					int bottomRightZ = (int) (rod.getZ() - 10);
+					if(l.getX() <= topRightX && l.getX() >= topRightX - 20
+							&& l.getZ() >= bottomRightZ && l.getZ() <= bottomRightZ + 20) {
+						// change the location to the lightning rod
+						l = new Location(w, rod.getX(), w.getHighestBlockYAt((int) rod.getX(),
+								(int) rod.getZ()), rod.getZ());
+						break;
 					}
 				}
 			}
-			this.timesLeft--;
-		} else {
-			this.cancel();
+
+			// strike location with lightning & change ground
+			w.strikeLightning(l);
+			new LightningChangeGround(l).runTask(plugin);
+		}
+		this.timesLeft--;
+	}
+
+	/**
+	 * A task that checks if the ground where the lightning struck needs to be
+	 * changed and changes it.
+	 *
+	 * @author RichardB122
+	 * @version 4/8/17
+	 */
+	private class LightningChangeGround extends BukkitRunnable {
+
+		private Location loc;
+
+		private LightningChangeGround(Location loc) {
+			this.loc = loc;
+		}
+
+		@Override
+		public void run() {
+			loc.setY(loc.getY() - 1);
+			Material blockMat = loc.getBlock().getType();
+			Block block = loc.getBlock();
+
+			// change ground if applicable
+			for(BlockData source : Disasters.lightningData.keySet()) {
+				if(source.getType() == blockMat) {
+					BlockData replace = Disasters.lightningData.get(source);
+
+					if (replace != null) {
+						// log change
+						String msg = "A block has been changed from " + source.getType().name()
+								+ " to " + replace.getType().name();
+						Disasters.log.info(msg);
+
+						// perform change
+						block.setType(replace.getType());
+						block.setData(new Integer(replace.getTypeData()).byteValue());
+
+						break; // quit loop
+					}
+				}
+			}
 		}
 	}
-	
-	
 	
 }
