@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitTask;
  * A BukkitRunnable for handling acid rain disintegrating blocks.
  *
  * @author RichardB122
- * @version 4/8/17
+ * @version 4/11/17
  */
 public class AcidRainDisintegrationHandler extends BukkitRunnable {
 
@@ -34,7 +34,7 @@ public class AcidRainDisintegrationHandler extends BukkitRunnable {
 			final World world = plugin.getServer().getWorld(Config.worldName);
 
 			for (final Player p : world.getPlayers()) {
-				final BukkitTask bukkitTask = new BukkitRunnable() {
+				new BukkitRunnable() {
 					public void run() {
 						// choose a block to disintegrate
 						Location loc = p.getLocation();

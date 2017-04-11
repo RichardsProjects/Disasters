@@ -16,7 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * exposed to the acid rain.
  *
  * @author RichardB122
- * @version 4/8/17
+ * @version 4/11/17
  */
 public class AcidRainDamageHandler extends BukkitRunnable {
 
@@ -43,14 +43,8 @@ public class AcidRainDamageHandler extends BukkitRunnable {
 					Location loc = player.getLocation();
 					boolean blockAboveThem = false;
 					int blockY = loc.getBlockY();
-					while(blockY <= 256) {
-						Block b = player.getLocation().getWorld().getBlockAt(loc.getBlockX(), blockY, loc.getBlockZ());
-						if(b.getType() != Material.AIR) {
-							blockAboveThem = true;
-							break;
-						}
-						blockY = blockY + 1;
-					}
+					int highestBlockY = world.getHighestBlockYAt(loc) - 1;
+					blockAboveThem = highestBlockY > blockY;
 					if(!blockAboveThem) player.damage(1);
 				}
 			}

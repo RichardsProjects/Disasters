@@ -7,29 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3713f6c-7ca1-42fc-bf4f-b7ae9f6bdf62" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/richard.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/SPEvent.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/LightningRodEvents.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/config.yml" afterPath="$PROJECT_DIR$/src/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/Config.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/Disasters.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/Disasters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/Utils.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/commands/LightningStormCommand.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/commands/LightningStormCommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/commands/MeteorCommand.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/commands/MeteorCommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/commands/WildfireCommand.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/commands/WildfireCommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/ImpactEvent.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/ImpactEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/PlayerJoinEvent.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/PlayerJoinEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/WeatherEvents.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/WeatherEvents.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDamageHandler.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDamageHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDisintegrationHandler.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDisintegrationHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStarter.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStarter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStop.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStop.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStrikeHandler.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStrikeHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/MeteorHandler.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/MeteorHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/StartWildfire.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/StartWildfire.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/WildfireHandler.java" afterPath="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/WildfireHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugin.yml" afterPath="$PROJECT_DIR$/src/plugin.yml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -47,75 +29,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/Utils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="54" column="54" lean-forward="false" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1155#1156#0" expanded="true" />
-                <element signature="e#1215#1216#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/config.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="19" lean-forward="false" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StartWildfire.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/StartWildfire.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="36" column="63" lean-forward="false" selection-start-line="36" selection-start-column="63" selection-end-line="36" selection-end-column="63" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WildfireHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/WildfireHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="514">
-              <caret line="51" column="24" lean-forward="false" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="52" lean-forward="false" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Config.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/Config.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1908">
-              <caret line="111" column="64" lean-forward="false" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
+            <state relative-caret-position="54">
+              <caret line="3" column="18" lean-forward="false" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -138,6 +56,11 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="RichardB122 &lt;richard@richardsprojects.net&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
@@ -160,20 +83,20 @@
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/PlayerJoinEvent.java" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/LightningRodEvents.java" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/events/WeatherEvents.java" />
-        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDamageHandler.java" />
-        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDisintegrationHandler.java" />
-        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStarter.java" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/MeteorHandler.java" />
-        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStrikeHandler.java" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStop.java" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/Disasters.java" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/Utils.java" />
         <option value="$PROJECT_DIR$/src/config.yml" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/Config.java" />
-        <option value="$PROJECT_DIR$/src/plugin.yml" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/StartWildfire.java" />
         <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/WildfireHandler.java" />
+        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStarter.java" />
+        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDisintegrationHandler.java" />
+        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDamageHandler.java" />
+        <option value="$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStrikeHandler.java" />
+        <option value="$PROJECT_DIR$/src/plugin.yml" />
       </list>
     </option>
   </component>
@@ -284,8 +207,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -551,7 +474,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491274241093</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="* Added the option to enable/disable fire spread from Wildfires&#10;* Tidied up a lot of code&#10;* Added a README.md&#10;* Version 1.0.1">
+      <created>1491857234591</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1491857234591</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -582,7 +512,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24546425" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25080043" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -608,7 +538,8 @@
     <MESSAGE value="Proper first commit" />
     <MESSAGE value="* Added option to disable any disaster type in the config&#10;* Updated the URL to the acid rain resource pack&#10;* Fixed bug with destroying lightning rods&#10;* Added option to config to disable meteor block damage" />
     <MESSAGE value="* Added option to disable any disaster type in the config&#10;* Updated the URL to the acid rain resource pack&#10;* Fixed bug with destroying lightning rods&#10;* Added option to config to disable meteor block damage&#10;* Tidied up some code" />
-    <option name="LAST_COMMIT_MESSAGE" value="* Added option to disable any disaster type in the config&#10;* Updated the URL to the acid rain resource pack&#10;* Fixed bug with destroying lightning rods&#10;* Added option to config to disable meteor block damage&#10;* Tidied up some code" />
+    <MESSAGE value="* Added the option to enable/disable fire spread from Wildfires&#10;* Tidied up a lot of code&#10;* Added a README.md&#10;* Version 1.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="* Added the option to enable/disable fire spread from Wildfires&#10;* Tidied up a lot of code&#10;* Added a README.md&#10;* Version 1.0.1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -625,7 +556,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1656">
           <caret line="98" column="48" lean-forward="true" selection-start-line="98" selection-start-column="48" selection-end-line="98" selection-end-column="48" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -706,9 +639,8 @@
         <state relative-caret-position="72">
           <caret line="14" column="23" lean-forward="false" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1054#2085#0" expanded="false" />
-            <element signature="e#2084#2085#0" expanded="false" />
+            <element signature="e#1025#2056#0" expanded="true" />
+            <element signature="e#2055#2056#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -748,9 +680,8 @@
         <state relative-caret-position="72">
           <caret line="14" column="23" lean-forward="false" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1054#2085#0" expanded="false" />
-            <element signature="e#2084#2085#0" expanded="false" />
+            <element signature="e#1025#2056#0" expanded="true" />
+            <element signature="e#2055#2056#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -782,9 +713,8 @@
         <state relative-caret-position="72">
           <caret line="14" column="23" lean-forward="false" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1054#2085#0" expanded="false" />
-            <element signature="e#2084#2085#0" expanded="false" />
+            <element signature="e#1025#2056#0" expanded="true" />
+            <element signature="e#2055#2056#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -817,9 +747,8 @@
         <state relative-caret-position="60">
           <caret line="14" column="23" lean-forward="false" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1054#2085#0" expanded="false" />
-            <element signature="e#2084#2085#0" expanded="false" />
+            <element signature="e#1025#2056#0" expanded="true" />
+            <element signature="e#2055#2056#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -897,74 +826,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDamageHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="794">
-          <caret line="53" column="57" lean-forward="true" selection-start-line="53" selection-start-column="57" selection-end-line="53" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDisintegrationHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="58" column="32" lean-forward="true" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1054#2085#0" expanded="false" />
-            <element signature="e#2084#2085#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/MeteorHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="81" column="22" lean-forward="false" selection-start-line="81" selection-start-column="22" selection-end-line="81" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStarter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="46" column="16" lean-forward="true" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
-          <folding>
-            <element signature="e#1512#1656#0" expanded="false" />
-            <element signature="e#1655#1656#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="20" column="4" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStrikeHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-286">
-          <caret line="26" column="4" lean-forward="false" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/BlockData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
           <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -978,7 +843,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
+        <state relative-caret-position="972">
           <caret line="54" column="54" lean-forward="false" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -988,26 +853,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1908">
-          <caret line="111" column="64" lean-forward="false" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
+      <provider editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="4" column="52" lean-forward="false" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
           <folding />
         </state>
       </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/plugin.yml">
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDamageHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="14" lean-forward="false" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+        <state relative-caret-position="119">
+          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/AcidRainDisintegrationHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="19" column="16" lean-forward="false" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+          <folding>
+            <element signature="e#1025#2056#0" expanded="true" />
+            <element signature="e#2055#2056#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStrikeHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="19" column="16" lean-forward="false" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStarter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="47">
+          <caret line="14" column="16" lean-forward="false" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -1020,18 +913,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/WildfireHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/MeteorHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="51" column="24" lean-forward="false" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
+        <state relative-caret-position="983">
+          <caret line="81" column="22" lean-forward="false" selection-start-line="81" selection-start-column="22" selection-end-line="81" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/StartWildfire.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="36" column="63" lean-forward="false" selection-start-line="36" selection-start-column="63" selection-end-line="36" selection-end-column="63" />
+        <state relative-caret-position="486">
+          <caret line="37" column="56" lean-forward="false" selection-start-line="37" selection-start-column="56" selection-end-line="37" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/WildfireHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="51" column="24" lean-forward="false" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/runnables/LightningStormStop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="20" column="4" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
+          <folding>
+            <element signature="e#537#538#0" expanded="true" />
+            <element signature="e#564#565#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/richardsprojects/disasters/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1998">
+          <caret line="111" column="64" lean-forward="false" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="18" lean-forward="false" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
           <folding />
         </state>
       </provider>

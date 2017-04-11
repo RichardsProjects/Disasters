@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * A BukkitRunnable that manages when lightning storms start and complete.
  *
  * @author RichardB122
- * @version 4/8/17
+ * @version 4/11/17
  */
 public class LightningStormStarter extends BukkitRunnable {
 
@@ -44,11 +44,7 @@ public class LightningStormStarter extends BukkitRunnable {
 				new LightningStormStop(plugin).runTaskLaterAsynchronously(plugin, duration);
 
 				// reset and start strike method
-				new BukkitRunnable() {
-					public void run() {
-						new LightningStrikeHandler(plugin).runTaskTimerAsynchronously(plugin, 0, 20);
-					}
-				}.runTask(plugin);
+				new LightningStrikeHandler(plugin).runTaskTimerAsynchronously(plugin, 0, 20);
 
 				Disasters.lightningStormInProgress = true;
 				world.setThundering(true);

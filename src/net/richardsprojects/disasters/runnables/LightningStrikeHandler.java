@@ -17,7 +17,7 @@ import net.richardsprojects.disasters.Utils;
  * lightning storm.
  *
  * @author RichardB122
- * @version 4/8/17
+ * @version 4/11/17
  */
 public class LightningStrikeHandler extends BukkitRunnable {
 
@@ -45,11 +45,11 @@ public class LightningStrikeHandler extends BukkitRunnable {
 			Location l = new Location(w, x, w.getHighestBlockYAt(x, z), z);
 
 			// check if there is a lightning rod in range
-			for(Location rod : Disasters.lightningRodList) {
-				if(!(rod.getX() == l.getX() && rod.getZ() == l.getZ())) {
+			for (Location rod : Disasters.lightningRodList) {
+				if (!(rod.getX() == l.getX() && rod.getZ() == l.getZ())) {
 					int topRightX = (int) (rod.getX() + 10);
 					int bottomRightZ = (int) (rod.getZ() - 10);
-					if(l.getX() <= topRightX && l.getX() >= topRightX - 20
+					if (l.getX() <= topRightX && l.getX() >= topRightX - 20
 							&& l.getZ() >= bottomRightZ && l.getZ() <= bottomRightZ + 20) {
 						// change the location to the lightning rod
 						l = new Location(w, rod.getX(), w.getHighestBlockYAt((int) rod.getX(),
